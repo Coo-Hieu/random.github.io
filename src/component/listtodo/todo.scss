@@ -1,0 +1,23 @@
+.TodoItem{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    color: #4d4d4d; 
+    .input:checked {
+        box-sizing: border-box;
+        padding: 0;
+        line-height: 21px;
+        height: 21px;
+    }
+    .InputGroupAddon input{
+        box-sizing: border-box;
+        padding: 0;
+        height: 21px;
+        line-height: 21px;
+        .todo-func{
+            margin-left: 10px;
+            font-family: inherit;
+            color: #353535;
+        }
+    }
+}

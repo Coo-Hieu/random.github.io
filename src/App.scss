@@ -1,0 +1,22 @@
+body{
+    background-image: url(./image/hinh-nen-tuong-Twisted-Fate-trong-lien-minh-huyen-thoai-6.jpg);
+    background-size: cover;
+    .psc{
+        height: 700px;
+        position: relative;
+        .pd1{
+        width: 383px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+            .frg{
+                float: right;
+                margin-bottom: 15px;
+            }
+            .fw{
+                font-weight: 900;
+            }
+        }
+    }
+}
