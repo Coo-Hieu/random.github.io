@@ -17,14 +17,14 @@ const RandomNumber = (props) => {
           </div>
           <div className="page-options ">
             <div className="logo-random_mode">
-              <Link to="/randomnumber">
-                <i className="fas fa-dice"></i>
-              </Link>
+              <i className="fas fa-dice">
+                <Link to="/randomnumber"></Link>
+              </i>
             </div>
             <div className="logo-random_mode">
-              <Link to="/wheelrandom">
-                <i className="fas fa-trophy"> </i>
-              </Link>
+              <i className="fas fa-trophy">
+                <Link to="/wheelrandom"></Link>
+              </i>
             </div>
           </div>
         </div>

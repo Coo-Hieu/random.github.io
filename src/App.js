@@ -11,18 +11,7 @@ class App extends Component {
         <div className="App">
           <div>
             <Header />
-            <div className="page-options ">
-              <div className="logo-random_mode">
-                <Link to="/randomnumber">
-                  <i className="fas fa-dice"></i>
-                </Link>
-              </div>
-              <div className="logo-random_mode">
-                <Link to="/wheelrandom">
-                  <i className="fas fa-trophy"> </i>
-                </Link>
-              </div>
-            </div>
+            <Main />
           </div>
         </div>
       </BrowserRouter>
