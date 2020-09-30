@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../MenuTop/header.scss";
 import { BrowserRouter as Link } from "react-router-dom";
 
@@ -18,12 +18,13 @@ const RandomNumber = (props) => {
           <div className="page-options ">
             <div className="logo-random_mode">
               <Link to="/randomnumber">
-                <i class="fas fa-dice"></i>
+                <i className="fas fa-dice"></i>
               </Link>
             </div>
-
             <div className="logo-random_mode">
-              <i class="fas fa-trophy"></i>
+              <Link to="/wheelrandom">
+                <i className="fas fa-trophy"> </i>
+              </Link>
             </div>
           </div>
         </div>
