@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../MenuTop/header.scss";
 import { Link } from "react-router-dom";
 
@@ -7,7 +7,6 @@ const RandomNumber = (props) => {
   //   const [collapsed, setCollapsed] = useState(true);
 
   //   const toggleNavbar = () => setCollapsed(!collapsed);
-
   return (
     <div className="header-navbar_custom">
       <div className="row-custom_navbar">
@@ -17,7 +16,11 @@ const RandomNumber = (props) => {
           </div>
           <div className="page-options ">
             <Link to="/randomnumber">
-              <div className="logo-random_mode">
+              <div
+                className="logo-random_mode in
+              
+              v"
+              >
                 <i className="fas fa-dice" />
               </div>
             </Link>

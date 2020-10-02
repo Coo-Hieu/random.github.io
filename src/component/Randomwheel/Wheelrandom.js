@@ -1,34 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "../Randomwheel/wheelname.scss";
 
+const colors = ["red", "blue", "pink", "orange"];
+
 function Wheelname() {
-  function canvasWheel(e) {
-    // debugger;
-    var canvas = document.getElementById("myCanvas");
-    var context = canvas.getContext("2d");
-    var centerX = canvas.width / 2;
-    var centerY = canvas.height / 2;
-    var radius = 340;
-
-    context.beginPath();
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = "#fff";
-    context.fill();
-    context.lineWidth = 5;
-    context.strokeStyle = "#003300";
-    context.stroke();
-    return;
-  }
-
   const [data, setData] = useState("");
   const [list, setList] = useState([]);
 
+  // console.log(list.length);
   useEffect(() => {
     canvasWheel();
   }, []);
 
   function handleValueChange(e) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setData(e.target.value);
   }
 
@@ -47,19 +32,57 @@ function Wheelname() {
     setData("");
 
     localStorage.setItem("myListUser", JSON.stringify(newDataList));
+    const saveData = localStorage.getItem("myListUser");
+  }
+  const drawPeople = ({ context, nuaCanvas, radius, numberPeople }) => {
+    for (let i = 0; i < numberPeople; i += 1) {
+      context.fillStyle = colors[i];
+      console.log(colors[i]);
+      console.log({ ...context });
+
+      context.moveTo(nuaCanvas, nuaCanvas);
+      context.arc(
+        nuaCanvas,
+        nuaCanvas,
+        radius,
+        i === 0 ? 0 : ((2 * Math.PI) / numberPeople) * (i + 1),
+        ((2 * Math.PI) / numberPeople) * (i + 1),
+        false
+      );
+      context.lineTo(nuaCanvas, nuaCanvas);
+      context.fill();
+      context.stroke();
+    }
+  };
+
+  function canvasWheel(e) {
+    // debugger;
+    var canvas = document.getElementById("myCanvas");
+    var context = canvas.getContext("2d");
+    const { width } = canvas;
+    var nuaCanvas = width / 2;
+    var radius = width / 2 - 5;
+
+    context.beginPath();
+    context.arc(nuaCanvas, nuaCanvas, radius, 0, 2 * Math.PI);
+    context.fillStyle = "#fff";
+    context.fill();
+    context.lineWidth = 5;
+    context.strokeStyle = "#003300";
+    context.stroke();
+    drawPeople({ context, nuaCanvas, radius, numberPeople: 5 });
   }
 
-  console.log(list);
   return (
     <div className="container mt-5">
       {" "}
-      <div className="canvas-container_zone" onLoad="draw();">
+      <div className="canvas-container_zone">
         <canvas id="myCanvas" width="700" height="700"></canvas>
       </div>
       <div className="player-wheel_zone">
         <ul>
           {list.map((user) => (
-            <li>{user.name}</li>
+            <li key={user.id}>{user.name}</li>
           ))}
         </ul>
       </div>
