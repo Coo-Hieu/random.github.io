@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../Randomwheel/wheelname.scss";
+import "./wheelname.scss";
 
 const colors = ["red", "blue", "pink", "orange"];
 
@@ -7,10 +7,10 @@ function Wheelname() {
   const [data, setData] = useState("");
   const [list, setList] = useState([]);
 
-  // console.log(list.length);
+  console.log(list);
   useEffect(() => {
     canvasWheel();
-  }, []);
+  }, list);
 
   function handleValueChange(e) {
     // console.log(e.target.value);
@@ -30,10 +30,15 @@ function Wheelname() {
     newDataList.push(newData);
     setList(newDataList);
     setData("");
-
-    localStorage.setItem("myListUser", JSON.stringify(newDataList));
-    const saveData = localStorage.getItem("myListUser");
   }
+
+  function handleRemoveUser(user) {
+    const index = list.indexOf(user);
+    const newDataList = [...list];
+    newDataList.splice(index, 1);
+    setList(newDataList);
+  }
+
   const drawPeople = ({ context, nuaCanvas, radius, numberPeople }) => {
     for (let i = 0; i < numberPeople; i += 1) {
       context.fillStyle = colors[i];
@@ -51,6 +56,13 @@ function Wheelname() {
       );
       context.lineTo(nuaCanvas, nuaCanvas);
       context.fill();
+      context.font = "30px Arial";
+      context.fillText(
+        list,
+        ((2 * Math.PI) / numberPeople) * (i + 1),
+        ((2 * Math.PI) / numberPeople) * (i + 1)
+      );
+      console.log("danh sách", list);
       context.stroke();
     }
   };
@@ -82,7 +94,12 @@ function Wheelname() {
       <div className="player-wheel_zone">
         <ul>
           {list.map((user) => (
-            <li key={user.id}>{user.name}</li>
+            <li key={user.id}>
+              {user.name}
+              <span onClick={handleRemoveUser} className="player-wheel_remove">
+                <i className="fas fa-user-slash"></i>
+              </span>
+            </li>
           ))}
         </ul>
       </div>
