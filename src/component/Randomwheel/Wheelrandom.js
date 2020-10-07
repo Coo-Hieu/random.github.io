@@ -10,7 +10,7 @@ function Wheelname() {
   console.log(list);
   useEffect(() => {
     canvasWheel();
-  }, list);
+  }, []);
 
   function handleValueChange(e) {
     // console.log(e.target.value);
@@ -33,36 +33,30 @@ function Wheelname() {
   }
 
   function handleRemoveUser(user) {
-    const index = list.indexOf(user);
-    const newDataList = [...list];
-    newDataList.splice(index, 1);
+    console.log(user, list);
+    const newDataList = list.filter((x) => x.id !== user.id);
     setList(newDataList);
   }
 
   const drawPeople = ({ context, nuaCanvas, radius, numberPeople }) => {
     for (let i = 0; i < numberPeople; i += 1) {
-      context.fillStyle = colors[i];
-      console.log(colors[i]);
-      console.log({ ...context });
-
+      // console.log({ ...context });
+      const beginUser = ((2 * Math.PI) / numberPeople) * i;
+      const lastUser = ((2 * Math.PI) / numberPeople) * (i + 1);
       context.moveTo(nuaCanvas, nuaCanvas);
       context.arc(
         nuaCanvas,
         nuaCanvas,
         radius,
-        i === 0 ? 0 : ((2 * Math.PI) / numberPeople) * (i + 1),
-        ((2 * Math.PI) / numberPeople) * (i + 1),
+        i === 0 ? 0 : beginUser,
+        lastUser,
         false
       );
       context.lineTo(nuaCanvas, nuaCanvas);
+
       context.fill();
-      context.font = "30px Arial";
-      context.fillText(
-        list,
-        ((2 * Math.PI) / numberPeople) * (i + 1),
-        ((2 * Math.PI) / numberPeople) * (i + 1)
-      );
-      console.log("danh sách", list);
+      console.log("begin", beginUser);
+      console.log("last", lastUser);
       context.stroke();
     }
   };
@@ -82,7 +76,8 @@ function Wheelname() {
     context.lineWidth = 5;
     context.strokeStyle = "#003300";
     context.stroke();
-    drawPeople({ context, nuaCanvas, radius, numberPeople: 5 });
+
+    drawPeople({ context, nuaCanvas, radius, numberPeople: 10 });
   }
 
   return (
@@ -96,7 +91,10 @@ function Wheelname() {
           {list.map((user) => (
             <li key={user.id}>
               {user.name}
-              <span onClick={handleRemoveUser} className="player-wheel_remove">
+              <span
+                onClick={() => handleRemoveUser(user)}
+                className="player-wheel_remove"
+              >
                 <i className="fas fa-user-slash"></i>
               </span>
             </li>
