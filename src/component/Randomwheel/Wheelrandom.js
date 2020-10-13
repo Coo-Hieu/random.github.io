@@ -1,15 +1,77 @@
 import React, { useState, useEffect } from "react";
+import Winwheel from "winwheel";
 import "./wheelname.scss";
-
-const colors = ["red", "blue", "pink", "orange"];
 
 function Wheelname() {
   const [data, setData] = useState("");
   const [list, setList] = useState([]);
 
+  const segments = list.map((item) => ({
+    ...item,
+    fillStyle: getRandomColor(),
+    text: item.name,
+    textAlignment: "outer",
+  }));
+
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    console.log(color);
+    return color;
+  }
+
+  const theWheel = new Winwheel({
+    canvasId: "myCanvas",
+    numSegments: list.length,
+    textFontSize: 14.5,
+    rotationAngle: 0, // Rotate wheel slightly anti-clockwise.
+    imageOverlay: true,
+    innerRadius: 50,
+    segments,
+    // Note animation properties passed in constructor parameters.
+    animation: {
+      type: "spinToStop", // Type of animation.
+      duration: 5, // How long the animation is to take in seconds.
+      spins: 8, // The number of complete 360 degree rotations the wheel is to do.
+    },
+  });
+
+  // function alertPrize(segement) {
+  //   alert("chúc mừng bạn " + segments.text);
+  // }
+
+  // let wheelSpinning = false;
+
+  // function startSpin() {
+  //   if (wheelSpinning == false) {
+  //     // statusButton(2);
+  //     theWheel.startAnimation();
+
+  //     wheelSpinning = true;
+  //   }
+  // }
+
   console.log(list);
   useEffect(() => {
-    canvasWheel();
+    const c = theWheel.ctx;
+    // Create pointer.
+    if (c) {
+      c.save();
+      c.lineWidth = 2;
+      c.strokeStyle = "black";
+      c.fillStyle = "black";
+      c.beginPath();
+      c.moveTo(330, 10);
+      c.lineTo(370, 10);
+      c.lineTo(350, 42);
+      c.lineTo(330, 10);
+      c.stroke();
+      c.fill();
+      c.restore();
+    }
   }, []);
 
   function handleValueChange(e) {
@@ -38,53 +100,11 @@ function Wheelname() {
     setList(newDataList);
   }
 
-  const drawPeople = ({ context, nuaCanvas, radius, numberPeople }) => {
-    for (let i = 0; i < numberPeople; i += 1) {
-      // console.log({ ...context });
-      const beginUser = ((2 * Math.PI) / numberPeople) * i;
-      const lastUser = ((2 * Math.PI) / numberPeople) * (i + 1);
-      context.moveTo(nuaCanvas, nuaCanvas);
-      context.arc(
-        nuaCanvas,
-        nuaCanvas,
-        radius,
-        i === 0 ? 0 : beginUser,
-        lastUser,
-        false
-      );
-      context.lineTo(nuaCanvas, nuaCanvas);
-
-      context.fill();
-      console.log("begin", beginUser);
-      console.log("last", lastUser);
-      context.stroke();
-    }
-  };
-
-  function canvasWheel(e) {
-    // debugger;
-    var canvas = document.getElementById("myCanvas");
-    var context = canvas.getContext("2d");
-    const { width } = canvas;
-    var nuaCanvas = width / 2;
-    var radius = width / 2 - 5;
-
-    context.beginPath();
-    context.arc(nuaCanvas, nuaCanvas, radius, 0, 2 * Math.PI);
-    context.fillStyle = "#fff";
-    context.fill();
-    context.lineWidth = 5;
-    context.strokeStyle = "#003300";
-    context.stroke();
-
-    drawPeople({ context, nuaCanvas, radius, numberPeople: 10 });
-  }
-
   return (
     <div className="container mt-5">
       {" "}
       <div className="canvas-container_zone">
-        <canvas id="myCanvas" width="700" height="700"></canvas>
+        <canvas id="myCanvas" width="700" height="785"></canvas>
       </div>
       <div className="player-wheel_zone">
         <ul>
@@ -100,6 +120,9 @@ function Wheelname() {
             </li>
           ))}
         </ul>
+        <button onClick={() => theWheel.startAnimation()}>
+          Spin the Wheel
+        </button>
       </div>
       <div className="player-name_zone">
         <form onSubmit={handleSubmit}>
